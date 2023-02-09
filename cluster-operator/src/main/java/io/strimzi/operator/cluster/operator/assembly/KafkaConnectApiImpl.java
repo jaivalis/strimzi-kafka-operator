@@ -171,6 +171,7 @@ class KafkaConnectApiImpl implements KafkaConnectApi {
     @Override
     public Future<Void> delete(Reconciliation reconciliation, String host, int port, String connectorName) {
         String path = "/connectors/" + connectorName;
+        LOGGER.debugCr(reconciliation, "Making DELETE request to {}", path);
         return HttpClientUtils.withHttpClient(vertx, new HttpClientOptions().setLogActivity(true), (httpClient, result) ->
             httpClient.request(HttpMethod.DELETE, port, host, path, request -> {
                 if (request.succeeded()) {
@@ -354,6 +355,7 @@ class KafkaConnectApiImpl implements KafkaConnectApi {
     @Override
     public Future<List<ConnectorPlugin>> listConnectorPlugins(Reconciliation reconciliation, String host, int port) {
         String path = "/connector-plugins";
+        LOGGER.debugCr(reconciliation, "Making GET request to {} with body {}", path);
         return HttpClientUtils.withHttpClient(vertx, new HttpClientOptions().setLogActivity(true), (httpClient, result) ->
                 httpClient.request(HttpMethod.GET, port, host, path, request -> {
                     if (request.succeeded()) {
@@ -422,6 +424,7 @@ class KafkaConnectApiImpl implements KafkaConnectApi {
     @Override
     public Future<Map<String, String>> listConnectLoggers(Reconciliation reconciliation, String host, int port) {
         String path = "/admin/loggers/";
+        LOGGER.debugCr(reconciliation, "Making GET request to {}", path);
         return HttpClientUtils.withHttpClient(vertx, new HttpClientOptions().setLogActivity(true), (httpClient, result) ->
                 httpClient.request(HttpMethod.GET, port, host, path, request -> {
                     if (request.succeeded()) {
@@ -592,6 +595,7 @@ class KafkaConnectApiImpl implements KafkaConnectApi {
     @Override
     public Future<List<String>> getConnectorTopics(Reconciliation reconciliation, String host, int port, String connectorName) {
         String path = String.format("/connectors/%s/topics", connectorName);
+        LOGGER.debugCr(reconciliation, "Making GET request to {}", path);
         return HttpClientUtils.withHttpClient(vertx, new HttpClientOptions().setLogActivity(true), (httpClient, result) ->
             httpClient.request(HttpMethod.GET, port, host, path, request -> {
                 if (request.succeeded()) {
